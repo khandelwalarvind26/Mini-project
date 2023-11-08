@@ -1,5 +1,6 @@
 import nltk
 import streamlit as st
+import time
 import requests
 import os
 import re
@@ -71,19 +72,26 @@ def main():
             st.write("PDFs successfully uploaded.")
 
             if st.button("Submit"):
-
+                start = time.time()
+                print("Conversion started")
                 text1 = pdf_to_text(file_1)
                 tokenized_text1 = " ".join(tokenize(text1))
 
                 text2 = pdf_to_text(file_2)
                 tokenized_text2 = " ".join(tokenize(text2))
-
+                et = time.time()
+                print(et - start)
+                print("Conversion ended")
                 my_obj = {
                     "t1": text1,
                     "t2": text2
                 }
+                print("Request Sent")
+                start = time.time()
                 res = make_api_call(my_obj)
-
+                et = time.time()
+                print(et - start)
+                print("Response recieved")
                 st.write(res)
                 # data = {
                 #     "file_1_text": extract_text_from_pdf(file_1),
